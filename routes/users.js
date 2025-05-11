@@ -28,4 +28,21 @@ router.post('/', async (req, res) => {
       });
 });
 
+router.delete('/', async (req, res) => {
+  const { usuario_id } = req.body;
+
+  db.run('PRAGMA foreign_keys = ON');
+
+  db.run(
+    `DELETE FROM usuarios WHERE id=?`,
+    [usuario_id],
+    function(err) {
+      if (err) {
+        return res.status(400).json({error: err.message });
+      }
+      res.status(204).json({ success: true });
+    }
+  );
+})
+
 module.exports = router;
