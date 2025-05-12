@@ -33,7 +33,7 @@ router.post('/register', async (req, res) => {
               return res.status(400).json({ error: err.message });
           }
 
-          const token = jwt.sign({ id: user.id, name: user.nome, email: user.email }, SECRET, { expiresIn: '1d' });
+          const token = jwt.sign({ id: this.lastID, name: nome, email: email }, SECRET, { expiresIn: '1d' });
           res.status(201).json({ sucess: true, token });
       });
 });
