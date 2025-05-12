@@ -13,21 +13,48 @@
         <div class="user_info">
             <p>Nome</p>
             <div class="v_line"></div>
-            <button onclick="logout()">Sair</button>
+            <button title="Sair da conta" onclick="logout()">Sair</button>
         </div>
     </div>
+
     <table class="books_table">
         <tr class="books_table_thread">
             <th>Título</th>
             <th>Autor</th>
             <th>Status</th>
             <th>Avaliação</th>
-            <th>Data Conclusão</th>
+            <th>Data de Conclusão</th>
+            <th></th>
         </tr>
-        <tbody id="tabela-livros">
-            <!-- Livros serão inseridos aqui -->
-        </tbody>
+        <tbody id="tabela-livros"></tbody>
     </table>
+
+    <container id="overlay" class="overlay_shadow hidden">
+        <div class="overlay_container">
+            <button class="close_button" onclick="closeOverlay()">X</button>
+            <div class="form_item">
+                <label class="form-label">Título</label>
+                <input id="livro_titulo">
+            </div>
+            <div class="form_item">
+                <label class="form-label">Autor</label>
+                <input id="livro_autor">
+            </div>
+            <div class="form_item">
+                <label class="form-label">Status</label>
+                <input id="livro_status">
+            </div>
+            <div class="form_item">
+                <label class="form-label">Avaliação</label>
+                <input id="livro_avaliacao">
+            </div>
+            <div class="form_item">
+                <label class="form-label">Data de Conclusão</label>
+                <label id="livro_data_conclusao"></label>
+            </div>
+        </div>
+    </container>
+
     <script src='/javascripts/dashboard.js'></script>
 </body>
 </html>

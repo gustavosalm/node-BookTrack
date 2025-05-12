@@ -17,23 +17,6 @@ body {
   text-align: center;
 }
 
-.form_item {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1rem;
-  row-gap: .125rem;
-}
-
-.form_item input {
-  padding: .375rem .25rem;
-  border-width: 0 0 1px 0;
-}
-
-.form_item input:focus {
-  outline: none;
-}
-
 .submit_button {
   width: 100%;
   border: none;

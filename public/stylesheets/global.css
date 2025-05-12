@@ -13,3 +13,21 @@ body {
   height: 2rem;
   background-color: black;
 }
+
+.form_item {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  row-gap: .125rem;
+}
+
+.form_item input {
+  padding: .375rem .25rem;
+  border-width: 0 0 1px 0;
+  background-color: transparent;
+}
+
+.form_item input:focus {
+  outline: none;
+}
