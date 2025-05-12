@@ -6,7 +6,10 @@ body {
   margin: 0;
   width: 100%;
   height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+}
+
+.v_line {
+  width: 1px;
+  height: 2rem;
+  background-color: black;
 }

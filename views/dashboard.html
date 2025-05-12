@@ -10,8 +10,24 @@
 </head>
 <body>
     <div class="header">
-
+        <div class="user_info">
+            <p>Nome</p>
+            <div class="v_line"></div>
+            <button onclick="logout()">Sair</button>
+        </div>
     </div>
-    <p>dashboard</p>
+    <table class="books_table">
+        <tr class="books_table_thread">
+            <th>Título</th>
+            <th>Autor</th>
+            <th>Status</th>
+            <th>Avaliação</th>
+            <th>Data Conclusão</th>
+        </tr>
+        <tbody id="tabela-livros">
+            <!-- Livros serão inseridos aqui -->
+        </tbody>
+    </table>
+    <script src='/javascripts/dashboard.js'></script>
 </body>
 </html>

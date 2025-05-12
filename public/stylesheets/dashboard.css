@@ -1,8 +1,64 @@
 .header {
     width: 100%;
-    padding: 1rem 3rem;
-    position: fixed;
-    top: 0;
+    padding: 1.5rem 0;
     background-color: rgb(245, 245, 245);
     box-shadow: 0 0 4px -2px black;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.user_info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 1rem;
+    margin-right: 3rem;
+}
+
+.user_info p {
+    margin: 0;
+}
+
+.user_info button {
+    border: 1px solid rgb(255, 21, 21);
+    background-color: rgba(255, 0, 0, 0.4);
+    border-radius: 1rem;
+    padding: 0.375rem 1.25rem;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color .25s;
+}
+
+.user_info button:hover {
+    background-color:  rgba(255, 0, 0, 0.7);
+}
+
+.books_table {
+    width: 80%;
+    margin: auto;
+    border-spacing: 0;
+    border-radius: .25rem;
+    overflow: hidden;
+    margin-top: 3rem;
+    box-shadow: 0 0 10px -5px black;
+}
+
+.books_table_thread {
+    width: 100%;
+    background-color: white !important;
+}
+
+.books_table tr {
+    background-color: white;
+}
+
+.books_table tr:nth-child(odd) {
+    background-color: rgb(197, 197, 197);
+}
+
+.books_table td, .books_table th {
+    text-align: start;
+    padding: .75rem .5rem;
 }
