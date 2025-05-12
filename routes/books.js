@@ -50,4 +50,19 @@ router.put('/status', async (req, res) => {
     )
 })
 
+router.delete('/', async (req, res) => {
+    const { livro_id } = req.body;
+
+    db.run(
+    `DELETE FROM livros WHERE id=?`,
+    [livro_id],
+    function(err) {
+      if (err) {
+        return res.status(400).json({error: err.message });
+      }
+      res.status(204).json({ success: true });
+    }
+  );
+})
+
 module.exports = router;
