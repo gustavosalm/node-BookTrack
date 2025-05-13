@@ -52,7 +52,7 @@ async function carregarLivros() {
                 <td>${livro.status}</td>
                 <td>${livro.avaliacao || '- -'}</td>
                 <td>${livro.data_conclusao || '- -'}</td>
-                <td><button title="Editar livro" class="edit_button" onclick='editarLivro(${JSON.stringify(livro)})'></button></td>
+                <td><button title="Editar livro" class="edit_button" onclick='editarLivroStart(${JSON.stringify(livro)})'></button></td>
                 <td><button title="Excluir livro" class="delete_button" onclick='deletarLivro(${livro.id})'></button></td>
             `;
             tabelaLivros.appendChild(tr);
@@ -98,11 +98,12 @@ async function deletarLivro(livro_id) {
     }
 }
 
-function editarLivro(livro) {
+function editarLivroStart(livro) {
     console.log(livro);
     overlay.classList.remove('hidden');
 
     document.getElementById('overlay_title').innerText = 'Editar Livro';
+    document.getElementById('livro_id').innerText = livro.id;
     document.getElementById('livro_titulo').value = livro.titulo;
     document.getElementById('livro_autor').value = livro.autor || '';
     document.getElementById('livro_status').value = livro.status;
@@ -110,6 +111,36 @@ function editarLivro(livro) {
     document.getElementById('livro_data_conclusao').innerText = `Data de Conclusão: ${livro.data_conclusao || ''}`;
     
     document.getElementById('create_book_button').classList.add('hidden');
+    document.getElementById('edit_book_button').classList.remove('hidden');
+}
+
+async function editarLivro() {
+    const livro_id = document.getElementById('livro_id').innerText;
+    const titulo = document.getElementById('livro_titulo').value;
+    const autor = document.getElementById('livro_autor').value;
+    const status = document.getElementById('livro_status').value;
+    const avaliacao = document.getElementById('livro_avaliacao').value;
+    
+    const livro = {
+        livro_id,
+        titulo,
+        autor: (autor === '') ? undefined : autor,
+        status: (status === '') ? undefined : status,
+        avaliacao: (avaliacao === '' || status !== 'Lido') ? undefined : parseInt(avaliacao)
+    }
+
+    const response = await fetch('http://localhost:3000/books/edit', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify(livro)
+    });
+
+    const data = await response.json();
+    if (data.sucess) {
+        carregarLivros();
+    }
+
+    closeOverlay();
 }
 
 function criarLivroStart() {
@@ -123,6 +154,7 @@ function criarLivroStart() {
     document.getElementById('livro_data_conclusao').innerText = '';
 
     document.getElementById('create_book_button').classList.remove('hidden');
+    document.getElementById('edit_book_button').classList.add('hidden');
 }
 
 async function criarLivro() {
@@ -135,7 +167,7 @@ async function criarLivro() {
         titulo,
         autor: (autor === '') ? undefined : autor,
         status: (status === '') ? undefined : status,
-        avaliacao: (avaliacao === '') ? undefined : avaliacao
+        avaliacao: (avaliacao === '' || status !== 'Lido') ? undefined : parseInt(avaliacao)
     }
 
     console.log(livro);

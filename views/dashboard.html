@@ -37,6 +37,7 @@
 
     <container id="overlay" class="overlay_shadow hidden">
         <div class="overlay_container">
+            <input type="hidden" id="livro_id">
             <h1 id="overlay_title">Adicionar Livro</h1>
             <button class="close_button" onclick="closeOverlay()">X</button>
             <div class="form_item">
@@ -49,16 +50,22 @@
             </div>
             <div class="form_item">
                 <label class="form-label">Status</label>
-                <input id="livro_status">
+                <select id="livro_status" required>
+                    <option value=""></option>
+                    <option value="Quero Ler">Quero Ler</option>
+                    <option value="Lendo">Lendo</option>
+                    <option value="Lido">Lido</option>
+                </select>
             </div>
             <div class="form_item">
                 <label class="form-label">Avaliação</label>
-                <input id="livro_avaliacao">
+                <input type="number" id="livro_avaliacao"  min="1" max="5">
             </div>
             <div class="form_item">
                 <label class="form-label" id="livro_data_conclusao">Data de Conclusão</label>
             </div>
             <button id="create_book_button" class="confirm_button hidden" onclick="criarLivro()">Adicionar</button>
+            <button id="edit_book_button" class="confirm_button hidden" onclick="editarLivro()">Editar</button>
         </div>
     </container>
 

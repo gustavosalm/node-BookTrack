@@ -22,12 +22,12 @@ body {
   row-gap: .125rem;
 }
 
-.form_item input {
+.form_item input, .form_item select {
   padding: .375rem .25rem;
   border-width: 0 0 1px 0;
   background-color: transparent;
 }
 
-.form_item input:focus {
+.form_item input:focus, .form_item select:focus {
   outline: none;
 }

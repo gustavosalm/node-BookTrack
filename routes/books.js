@@ -81,51 +81,44 @@ router.delete('/', autenticate, async (req, res) => {
     )
 });
 
-router.put('/status', async (req, res) => {
-    const { livro_id, status } = req.body;
+router.put('/edit', autenticate, async (req, res) => {
+    const { livro_id, titulo, autor, status, avaliacao } = req.body;
+    const { id } = req.usuario;
     let data = null;
 
     if (status === "Lido")
         data = new Date().toISOString().split("T")[0];
-
-    db.run(
-        `UPDATE livros
-         SET status = ?, data_conclusao = ?
-         WHERE id = ?`,
-        [status, data, livro_id],
-        function(err) {
-            if (err) {
-                return res.status(400).json({ error: err.message });
-            }
-            res.status(200).json({ sucess: true });
-        }
-    )
-});
-
-router.put('/grade', async (req, res) => {
-    const { livro_id, nota } = req.body;
+    else if (avaliacao)
+        return res.status(400).json({ error: "Só é possível avaliar livros com status 'Lido'." }); 
 
     db.get(
-        `SELECT status FROM livros WHERE id = ?`,
-        [livro_id], 
-        (err, row) => {
-            if (err)
-                return res.status(400).json({ error: "Erro ao buscar livro." });
-
-            if (row.status !== "Lido")
-                return res.status(400).json({ error: "Só é possível avaliar livros com status 'Lido'." });
+        'SELECT * FROM livros WHERE id = ?',
+        [livro_id],
+        function(err, livro) {
+            if (err) {
+                return res.status(400).json({error: err.message });
+            }
+            if (!livro) {
+                return res.status(404).json({error: 'Livro não encontrado' });
+            }
+            if (livro.usuario_id !== id) {
+                return res.status(403).json({error: 'Você não tem permissão para editar este livro' });
+            }
 
             db.run(
-                `UPDATE livros SET avaliacao = ? WHERE id = ?`,
-                [nota, livro_id],
-                function (err) {
-                    if (err)
-                        return res.status(500).json({ error: "Erro ao atualizar a avaliação." });
-                    res.json({ message: "Avaliação atualizada com sucesso." });
+                `UPDATE livros
+                 SET titulo = ?, autor = ?, status = ?, avaliacao = ?, data_conclusao = ?
+                 WHERE id = ?`,
+                [titulo, autor, status, avaliacao, data, livro_id],
+                function(err) {
+                    if (err) {
+                        return res.status(400).json({ error: err.message });
+                    }
+                    res.status(200).json({ sucess: true });
                 }
-            );
+            )
         }
-    );
+    )
 });
 
 module.exports = router;
