@@ -3,8 +3,7 @@ const bcrypt = require('bcrypt');
 const db = require('../config/db');
 const jwt = require('jsonwebtoken');
 
-// Lembrar de por em um .env
-const SECRET = "chave";
+require('dotenv').config();
 
 var router = express.Router();
 
@@ -32,7 +31,9 @@ router.post('/register', async (req, res) => {
           if (err) {
               return res.status(400).json({ error: err.message });
           }
-          res.status(201).json({ sucess: true, id: this.lastID });
+
+          const token = jwt.sign({ id: this.lastID, name: nome, email: email }, process.env.KEY, { expiresIn: '1d' });
+          res.status(201).json({ sucess: true, token });
       });
 });
 
@@ -54,7 +55,7 @@ router.post('/login', async (req, res) => {
       if (!valid)
         return res.status(400).json({ error: 'E-mail ou senha inválidos' });
       
-      const token = jwt.sign({ id: user.id, name: user.nome, email: user.email }, SECRET, { expiresIn: '1d' });
+      const token = jwt.sign({ id: user.id, name: user.nome, email: user.email }, process.env.KEY, { expiresIn: '1d' });
       res.status(200).json({ success: true, token });
     }
   )

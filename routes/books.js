@@ -2,12 +2,13 @@ var express = require('express');
 const db = require('../config/db');
 
 var router = express.Router();
+const autenticate = require('../middleware/auth');
 
-router.get('/', function(req, res, next) {
-    const { usuario_id } = req.query;
+router.get('/', autenticate, function(req, res) {
+    const { id } = req.usuario;
 
     db.all(`SELECT * FROM livros WHERE usuario_id = ? ORDER BY id
-    `, [usuario_id], (err, rows) => {
+    `, [id], (err, rows) => {
         if (err) {
             return res.status(500).send(`fetch users error: ${err.message}`);
         }
@@ -15,12 +16,13 @@ router.get('/', function(req, res, next) {
     });
 });
 
-router.post('/', async (req, res) => {
-    const { titulo, autor, status, avaliacao, data_conclusao, usuario_id } = req.body;
+router.post('/', autenticate, async (req, res) => {
+    const { titulo, autor, status, avaliacao, data_conclusao } = req.body;
+    const { id } = req.usuario;
 
     db.run(`INSERT INTO livros (titulo, autor, status, avaliacao, data_conclusao, usuario_id)
             VALUES (?, ?, ?, ?, ?, ?)
-        `, [titulo, autor, status, avaliacao, data_conclusao, usuario_id],
+        `, [titulo, autor, status, avaliacao, data_conclusao, id],
         function(err) {
             if (err) {
                 return res.status(400).json({ error: err.message });
