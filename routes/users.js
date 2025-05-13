@@ -3,18 +3,22 @@ const bcrypt = require('bcrypt');
 const db = require('../config/db');
 const jwt = require('jsonwebtoken');
 
-// Lembrar de por em um .env
-const SECRET = "chave";
+require('dotenv').config();
+const autenticate = require('../middleware/auth');
 
 var router = express.Router();
 
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
   db.all('SELECT id, nome, email FROM usuarios', [], (err, rows) => {
     if (err) {
       return res.status(500).send(`fetch users error: ${err.message}`);
     }
     res.json(rows);
   });
+});
+
+router.get('/currentUser', autenticate, function(req, res) {
+  res.json(req.usuario);
 });
 
 router.post('/register', async (req, res) => {
@@ -33,7 +37,7 @@ router.post('/register', async (req, res) => {
               return res.status(400).json({ error: err.message });
           }
 
-          const token = jwt.sign({ id: this.lastID, name: nome, email: email }, SECRET, { expiresIn: '1d' });
+          const token = jwt.sign({ id: this.lastID, name: nome, email: email }, process.env.KEY, { expiresIn: '1d' });
           res.status(201).json({ sucess: true, token });
       });
 });
@@ -56,7 +60,7 @@ router.post('/login', async (req, res) => {
       if (!valid)
         return res.status(400).json({ error: 'E-mail ou senha inválidos' });
       
-      const token = jwt.sign({ id: user.id, name: user.nome, email: user.email }, SECRET, { expiresIn: '1d' });
+      const token = jwt.sign({ id: user.id, name: user.nome, email: user.email }, process.env.KEY, { expiresIn: '1d' });
       res.status(200).json({ success: true, token });
     }
   )
