@@ -4,6 +4,7 @@ const db = require('../config/db');
 var router = express.Router();
 const autenticate = require('../middleware/auth');
 
+// Pega a lista de livros do usuário logado atualmente
 router.get('/', autenticate, function(req, res) {
     const { id } = req.usuario;
 
@@ -16,6 +17,7 @@ router.get('/', autenticate, function(req, res) {
     });
 });
 
+// Exporta em um arquivo .json a lista de livros do usuário logado atualmente
 router.get('/export', autenticate, function(req, res) {
     const { id } = req.usuario;
 
@@ -31,11 +33,14 @@ router.get('/export', autenticate, function(req, res) {
     });
 });
 
+// Cria um novo livro para o usuário logado atualmente
 router.post('/', autenticate, async (req, res) => {
-    const { titulo, autor, status, avaliacao, data_conclusao } = req.body;
+    const { titulo, autor, status, avaliacao } = req.body;
     const { id } = req.usuario;
 
-    if (status !== "Lido" && avaliacao)
+    if (status === "Lido")
+        data_conclusao = new Date().toISOString().split("T")[0];
+    else if (avaliacao)
         return res.status(400).json({ error: "Só é possível avaliar livros com status 'Lido'." });
 
     db.run(`INSERT INTO livros (titulo, autor, status, avaliacao, data_conclusao, usuario_id)
@@ -45,10 +50,11 @@ router.post('/', autenticate, async (req, res) => {
             if (err) {
                 return res.status(400).json({ error: err.message });
             }
-            res.status(201).json({ sucess: true, livro: data });
+            res.status(201).json({ sucess: true });
         });
 });
 
+// Deleta um livro do usuário logado atualmente
 router.delete('/', autenticate, async (req, res) => {
     const { livro_id } = req.body;
     const { id } = req.usuario;
@@ -81,6 +87,7 @@ router.delete('/', autenticate, async (req, res) => {
     )
 });
 
+// Edita os dados de um livro
 router.put('/edit', autenticate, async (req, res) => {
     const { livro_id, titulo, autor, status, avaliacao } = req.body;
     const { id } = req.usuario;
@@ -103,6 +110,9 @@ router.put('/edit', autenticate, async (req, res) => {
             }
             if (livro.usuario_id !== id) {
                 return res.status(403).json({error: 'Você não tem permissão para editar este livro' });
+            }
+            if (livro.status === 'Lido') {
+                return res.status(403).json({error: 'Esse livro não pode ser editado.' });              
             }
 
             db.run(

@@ -1,8 +1,8 @@
+var cookieParser = require('cookie-parser');
 var createError = require('http-errors');
 var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var path = require('path');
 
 var usersRouter = require('./routes/users');
 var booksRouter = require('./routes/books');
@@ -10,7 +10,6 @@ var booksRouter = require('./routes/books');
 var app = express();
 const port = 3000
 
-// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
@@ -20,33 +19,34 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Rotas da API de usuários e livro
 app.use('/users', usersRouter);
 app.use('/books', booksRouter);
 
+// Exibe a página inicial
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
+// Exibe a página do dashboard
 app.get('/dashboard', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'dashboard.html'));
 });
 
+// Exibe a página do login
 app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'login.html'));
 });
 
-// catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
+// Exibe a tela de erro
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
   res.status(err.status || 500);
   res.sendFile(path.join(__dirname, 'views', 'error.html'));
 });

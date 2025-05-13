@@ -26,6 +26,7 @@ body {
   background-color: rgb(49, 130, 250);
   color: white;
   font-size: 1.25rem;
+  cursor: pointer;
 }
 
 .redirect_text {

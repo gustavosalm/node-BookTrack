@@ -5,6 +5,7 @@ document.getElementById('signInForm').addEventListener('submit', async function 
     const senha = document.getElementById('senha').value;
     const mensagem = document.getElementById('mensagem');
 
+    // Realiza o login e redireciona para o dashboard se bem sucedido
     try {
         const response = await fetch('http://localhost:3000/users/login', {
             method: 'POST',

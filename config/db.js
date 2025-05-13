@@ -11,6 +11,7 @@ const db = new sqlite3.Database(dbPath, (err) => {
   }
 });
 
+// Tabela de Usuário
 db.run(`
     CREATE TABLE IF NOT EXISTS usuarios (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -20,6 +21,7 @@ db.run(`
     )
 `);
 
+// Tabela de Livros
 db.run(`
   CREATE TABLE IF NOT EXISTS livros (
     id INTEGER PRIMARY KEY AUTOINCREMENT,

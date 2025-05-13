@@ -8,6 +8,7 @@ const autenticate = require('../middleware/auth');
 
 var router = express.Router();
 
+// Retorna uma lista com todos os usuários
 router.get('/', function(req, res) {
   db.all('SELECT id, nome, email FROM usuarios', [], (err, rows) => {
     if (err) {
@@ -17,10 +18,12 @@ router.get('/', function(req, res) {
   });
 });
 
+// Retorna os dados do usuário logado atualmente
 router.get('/currentUser', autenticate, function(req, res) {
   res.json(req.usuario);
 });
 
+// Cadastra/cria um novo usuário
 router.post('/register', async (req, res) => {
   const { nome, email, senha } = req.body;
   const passwordHash = await bcrypt.hash(senha, 12);
@@ -42,6 +45,7 @@ router.post('/register', async (req, res) => {
       });
 });
 
+// Realiza o login por e-mail e senha
 router.post('/login', async (req, res) => {
   const { email, senha } = req.body;
 
@@ -66,6 +70,7 @@ router.post('/login', async (req, res) => {
   )
 })
 
+// Exclui um usuário da database
 router.delete('/', async (req, res) => {
   const { usuario_id } = req.body;
 

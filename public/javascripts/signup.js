@@ -6,6 +6,7 @@ document.getElementById('signUpForm').addEventListener('submit', async function 
     const senha = document.getElementById('senha').value;
     const mensagem = document.getElementById('mensagem');
 
+    // Realiza o cadastro e redireciona para o dashboard se bem sucedido
     try {
         const response = await fetch('http://localhost:3000/users/register', {
             method: 'POST',

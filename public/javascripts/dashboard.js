@@ -4,10 +4,12 @@ const tabelaLivros = document.getElementById('tabela-livros');
 const overlay = document.getElementById('overlay');
 const username = document.getElementById('username');
 
+// Retorna ao Login caso o usuário não esteja logado
 if (!token) {
     window.location.href = '/login';
 }
 
+// Exibe o nome do usuário no Header da página
 async function carregarHeader() {
     const response = await fetch('http://localhost:3000/users/currentUser', {
         method: 'GET',
@@ -18,6 +20,7 @@ async function carregarHeader() {
     username.innerText = data.name;
 }
 
+// Carrega e exibe a lista de livros do usuário atual
 async function carregarLivros() {
     try {
         const response = await fetch('http://localhost:3000/books', {
@@ -39,12 +42,14 @@ async function carregarLivros() {
         }
 
         if (data.length === 0) {
-            tabelaLivros.innerHTML = '<tr><td colspan="5">Nenhum livro cadastrado.</td></tr>';
+            tabelaLivros.innerHTML = '<tr><td colspan="7">Nenhum livro cadastrado.</td></tr>';
             return;
         }
 
         tabelaLivros.innerHTML = '';
         data.forEach((livro) => {
+            const edit = livro.status === 'Lido' ? 'hidden' : ''
+
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${livro.titulo}</td>
@@ -52,7 +57,7 @@ async function carregarLivros() {
                 <td>${livro.status}</td>
                 <td>${livro.avaliacao || '- -'}</td>
                 <td>${livro.data_conclusao || '- -'}</td>
-                <td><button title="Editar livro" class="edit_button" onclick='editarLivroStart(${JSON.stringify(livro)})'></button></td>
+                <td><button title="Editar livro" class="edit_button ${edit}" onclick='editarLivroStart(${JSON.stringify(livro)})'></button></td>
                 <td><button title="Excluir livro" class="delete_button" onclick='deletarLivro(${livro.id})'></button></td>
             `;
             tabelaLivros.appendChild(tr);
@@ -62,11 +67,13 @@ async function carregarLivros() {
     }
 }
 
+// Desconecta o usuário e retorna á tela de Login
 function logout() {
     localStorage.removeItem('token');
     window.location.href = '/login';
 }
 
+// Baixa um arquivo json com a lista de livros do usuário atual
 async function baixarLivros() {
     const response = await fetch('http://localhost:3000/books/export', {
         method: 'GET',
@@ -86,6 +93,7 @@ async function baixarLivros() {
     }
 }
 
+// Exclui um livro da database
 async function deletarLivro(livro_id) {
     const response = await fetch('http://localhost:3000/books', {
         method: 'DELETE',
@@ -98,6 +106,7 @@ async function deletarLivro(livro_id) {
     }
 }
 
+// Inicia o overlay para edição dos dados de um livro
 function editarLivroStart(livro) {
     console.log(livro);
     overlay.classList.remove('hidden');
@@ -114,6 +123,7 @@ function editarLivroStart(livro) {
     document.getElementById('edit_book_button').classList.remove('hidden');
 }
 
+// Edita os dados do livro na database
 async function editarLivro() {
     const livro_id = document.getElementById('livro_id').innerText;
     const titulo = document.getElementById('livro_titulo').value;
@@ -143,6 +153,7 @@ async function editarLivro() {
     closeOverlay();
 }
 
+// Inicia o overlay para a criação de um livro
 function criarLivroStart() {
     overlay.classList.remove('hidden');
 
@@ -157,6 +168,7 @@ function criarLivroStart() {
     document.getElementById('edit_book_button').classList.add('hidden');
 }
 
+// Cria um novo livro
 async function criarLivro() {
     const titulo = document.getElementById('livro_titulo').value;
     const autor = document.getElementById('livro_autor').value;
@@ -186,6 +198,7 @@ async function criarLivro() {
     closeOverlay()
 }
 
+// Fecha o overlay de edição/criação de livros
 function closeOverlay() {
     overlay.classList.add('hidden');
 }
