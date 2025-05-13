@@ -20,6 +20,9 @@ router.post('/', autenticate, async (req, res) => {
     const { titulo, autor, status, avaliacao, data_conclusao } = req.body;
     const { id } = req.usuario;
 
+    if (status !== "Lido" && avaliacao)
+        return res.status(400).json({ error: "Só é possível avaliar livros com status 'Lido'." });
+
     db.run(`INSERT INTO livros (titulo, autor, status, avaliacao, data_conclusao, usuario_id)
             VALUES (?, ?, ?, ?, ?, ?)
         `, [titulo, autor, status, avaliacao, data_conclusao, id],
@@ -27,7 +30,7 @@ router.post('/', autenticate, async (req, res) => {
             if (err) {
                 return res.status(400).json({ error: err.message });
             }
-            res.status(201).json({ sucess: true });
+            res.status(201).json({ sucess: true, livro: data });
         });
 });
 

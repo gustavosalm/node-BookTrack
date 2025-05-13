@@ -35,9 +35,15 @@
     background-color:  rgba(255, 0, 0, 0.7);
 }
 
-.books_table {
+.table_container {
     width: 80%;
     margin: auto;
+    position: relative;
+    padding-bottom: 3rem;
+}
+
+.books_table {
+    width: 100%;
     border-spacing: 0;
     border-radius: .25rem;
     overflow: hidden;
@@ -78,10 +84,20 @@
     cursor: pointer;
 }
 
+.delete_button {
+    width: 1.5rem;
+    height: 1.5rem;
+    background-size: contain;
+    background-image: url('../images/delete_icon.png');
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
 .overlay_shadow {
     width: 100vw;
     height: 100vh;
-    position: absolute;
+    position: fixed;
     top: 0;
     z-index: 5;
     background-color: rgba(0, 0, 0, 0.4);
@@ -114,4 +130,35 @@
     background-color: transparent;
     border: none;
     cursor: pointer;
+}
+
+.add_book_button {
+    float: right;
+    margin-top: 1rem;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background-color: rgb(185, 185, 185);
+    font-size: 1.25rem;
+    padding: .5rem .75rem;
+    border-radius: .25rem;
+    box-shadow: 0 0 4px -2px black;
+    color: white;
+}
+
+.add_book_button span {
+    font-size: 1.5rem;
+}
+
+.confirm_button {
+    width: 100%;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background-color: rgb(185, 185, 185);
+    font-size: 1.25rem;
+    padding: .5rem .75rem;
+    border-radius: .25rem;
+    box-shadow: 0 0 4px -2px black;
+    color: white;
 }
