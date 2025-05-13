@@ -55,19 +55,36 @@ router.put('/status', async (req, res) => {
     )
 });
 
-router.delete('/', async (req, res) => {
+router.delete('/', autenticate, async (req, res) => {
     const { livro_id } = req.body;
+    const { id } = req.usuario;
 
-    db.run(
-        `DELETE FROM livros WHERE id=?`,
+    db.get(
+        'SELECT * FROM livros WHERE id = ?',
         [livro_id],
-        function(err) {
+        function(err, livro) {
             if (err) {
                 return res.status(400).json({error: err.message });
             }
-            res.status(204).json({ success: true });
+            if (!livro) {
+                return res.status(404).json({error: 'Livro não encontrado' });
+            }
+            if (livro.usuario_id !== id) {
+                return res.status(403).json({error: 'Você não tem permissão para excluir este livro' });
+            }
+
+            db.run(
+                `DELETE FROM livros WHERE id=?`,
+                [livro_id],
+                function(err) {
+                    if (err) {
+                        return res.status(400).json({error: err.message });
+                    }
+                    res.status(204).json({ success: true });
+                }
+            );
         }
-    );
+    )
 });
 
 router.put('/grade', async (req, res) => {
