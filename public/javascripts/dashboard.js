@@ -67,6 +67,25 @@ function logout() {
     window.location.href = '/login';
 }
 
+async function baixarLivros() {
+    const response = await fetch('http://localhost:3000/books/export', {
+        method: 'GET',
+        headers: { Authorization: `Bearer ${token}` }
+    });
+
+    if(response.ok) {
+        const blob = await response.blob();
+
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'livros.json';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+    }
+}
+
 async function deletarLivro(livro_id) {
     const response = await fetch('http://localhost:3000/books', {
         method: 'DELETE',
