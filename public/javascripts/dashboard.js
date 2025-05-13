@@ -2,17 +2,27 @@ const token = localStorage.getItem('token');
 
 const tabelaLivros = document.getElementById('tabela-livros');
 const overlay = document.getElementById('overlay');
+const username = document.getElementById('username');
 
 if (!token) {
     window.location.href = '/login';
 }
 
+async function carregarHeader() {
+    const response = await fetch('http://localhost:3000/users/currentUser', {
+        method: 'GET',
+        headers: { Authorization: `Bearer ${token}` }
+    });
+
+    const data = await response.json();
+    username.innerText = data.name;
+}
+
 async function carregarLivros() {
     try {
-        // Trocar para Autorization por token !!
-        const response = await fetch('http://localhost:3000/books?usuario_id=13', {
+        const response = await fetch('http://localhost:3000/books', {
             method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
+            headers: { Authorization: `Bearer ${token}` }
         });
 
         const data = await response.json();
@@ -20,7 +30,7 @@ async function carregarLivros() {
         if (!response.ok) {
             if (response.status === 401 || response.status === 403) {
                 localStorage.removeItem('token');
-                window.location.href = '/login.html';
+                window.location.href = '/login';
             } else {
                 console.log(data.error || 'Erro ao carregar livros.');
             }
@@ -69,4 +79,5 @@ function closeOverlay() {
     overlay.classList.add('hidden');
 }
 
+carregarHeader();
 carregarLivros();
