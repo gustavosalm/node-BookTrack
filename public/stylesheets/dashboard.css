@@ -1,0 +1,179 @@
+.header {
+    width: 100%;
+    padding: 1.5rem 0;
+    background-color: rgb(245, 245, 245);
+    box-shadow: 0 0 4px -2px black;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.user_info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 1rem;
+    margin-right: 3rem;
+}
+
+.user_info p {
+    margin: 0;
+}
+
+.user_info button {
+    border: 1px solid rgb(255, 21, 21);
+    background-color: rgba(255, 0, 0, 0.4);
+    border-radius: 1rem;
+    padding: 0.375rem 1.25rem;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color .25s;
+}
+
+.user_info button:hover {
+    background-color:  rgba(255, 0, 0, 0.7);
+}
+
+.table_container {
+    width: 80%;
+    margin: auto;
+    position: relative;
+    padding-bottom: 3rem;
+}
+
+.books_table {
+    width: 100%;
+    border-spacing: 0;
+    border-radius: .25rem;
+    overflow: hidden;
+    margin-top: 3rem;
+    box-shadow: 0 0 10px -5px black;
+}
+
+.books_table_thread {
+    width: 100%;
+    background-color: white !important;
+}
+
+.books_table tr {
+    background-color: white;
+}
+
+.books_table tr:nth-child(odd) {
+    background-color: rgb(197, 197, 197);
+}
+
+.books_table td, .books_table th {
+    text-align: start;
+    padding: .75rem .5rem;
+}
+
+.books_table td:last-child {
+    text-align: end;
+    padding-right: 1rem;
+}
+
+.edit_button {
+    width: 1.5rem;
+    height: 1.5rem;
+    background-size: contain;
+    background-image: url('../images/edit_icon.png');
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.delete_button {
+    width: 1.5rem;
+    height: 1.5rem;
+    background-size: contain;
+    background-image: url('../images/delete_icon.png');
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.overlay_shadow {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    z-index: 5;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay_container {
+    position: relative;
+    width: 40%;
+    height: auto;
+    padding: 3rem 1rem;
+    border-radius: .75rem;
+    background-color: rgb(245, 245, 245);
+}
+
+.hidden {
+    display: none !important;
+}
+
+.close_button {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-size: contain;
+    background-image: url('../images/close_icon.png');
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.add_book_button {
+    float: right;
+    margin-top: 1rem;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background-color: rgb(185, 185, 185);
+    font-size: 1.25rem;
+    padding: .5rem .75rem;
+    border-radius: .25rem;
+    box-shadow: 0 0 4px -2px black;
+    color: white;
+}
+
+.add_book_button span {
+    font-size: 1.5rem;
+}
+
+.export_books_button {
+    float: left;
+    margin-top: 1rem;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background-color: rgb(185, 185, 185);
+    font-size: 1.25rem;
+    padding: .5rem 1rem;
+    border-radius: .25rem;
+    box-shadow: 0 0 4px -2px black;
+    color: white;
+
+}
+
+.confirm_button {
+    width: 100%;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background-color: rgb(185, 185, 185);
+    font-size: 1.25rem;
+    padding: .5rem .75rem;
+    border-radius: .25rem;
+    box-shadow: 0 0 4px -2px black;
+    color: white;
+}

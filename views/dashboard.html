@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Lista de livros</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' href='/stylesheets/global.css'>
+    <link rel='stylesheet' type='text/css' href='/stylesheets/dashboard.css'>
+</head>
+<body>
+    <div class="header">
+        <div class="user_info">
+            <p id="username">Nome</p>
+            <div class="v_line"></div>
+            <button title="Sair da conta" onclick="logout()">Sair</button>
+        </div>
+    </div>
+
+    <div class="table_container">
+        <table class="books_table">
+            <tr class="books_table_thread">
+                <th>Título</th>
+                <th>Autor</th>
+                <th>Status</th>
+                <th>Avaliação</th>
+                <th>Data de Conclusão</th>
+                <th style="width: 1rem;"></th>
+                <th style="width: 1rem;"></th>
+            </tr>
+            <tbody id="tabela-livros"></tbody>
+        </table>
+        <button class="export_books_button" onclick="baixarLivros()">Exportar livros</button>
+        <button class="add_book_button" onclick="criarLivroStart()"><span>+</span> Adicionar livro</button>
+        <div style="clear: both;"></div>
+    </div>
+
+    <container id="overlay" class="overlay_shadow hidden">
+        <div class="overlay_container">
+            <input type="hidden" id="livro_id">
+            <h1 id="overlay_title">Adicionar Livro</h1>
+            <button class="close_button" onclick="closeOverlay()">X</button>
+            <div class="form_item">
+                <label class="form-label">Título</label>
+                <input id="livro_titulo">
+            </div>
+            <div class="form_item">
+                <label class="form-label">Autor</label>
+                <input id="livro_autor">
+            </div>
+            <div class="form_item">
+                <label class="form-label">Status</label>
+                <select id="livro_status" required>
+                    <option value=""></option>
+                    <option value="Quero Ler">Quero Ler</option>
+                    <option value="Lendo">Lendo</option>
+                    <option value="Lido">Lido</option>
+                </select>
+            </div>
+            <div class="form_item">
+                <label class="form-label">Avaliação</label>
+                <input type="number" id="livro_avaliacao"  min="1" max="5">
+            </div>
+            <div class="form_item">
+                <label class="form-label" id="livro_data_conclusao">Data de Conclusão</label>
+            </div>
+            <button id="create_book_button" class="confirm_button hidden" onclick="criarLivro()">Adicionar</button>
+            <button id="edit_book_button" class="confirm_button hidden" onclick="editarLivro()">Editar</button>
+        </div>
+    </container>
+
+    <script src='/javascripts/dashboard.js'></script>
+</body>
+</html>
