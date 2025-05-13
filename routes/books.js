@@ -37,6 +37,7 @@ router.get('/export', autenticate, function(req, res) {
 router.post('/', autenticate, async (req, res) => {
     const { titulo, autor, status, avaliacao } = req.body;
     const { id } = req.usuario;
+    let data_conclusao = undefined;
 
     if (status === "Lido")
         data_conclusao = new Date().toISOString().split("T")[0];
